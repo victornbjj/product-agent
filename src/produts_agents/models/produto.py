@@ -1,13 +1,19 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from decimal import Decimal
 
-# id, nome, preco, descricao, quantidade_estoque
+
+model_config = ConfigDict(from_attributes=True)
+
 
 class Produto(BaseModel):
+    
+    
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int 
     nome: str = Field(min_length=1, max_length=30)
     preco: Decimal = Field(gt=0)
-    descricao: str = Field(min_length=10, max_length=280)
+    descricao: str = Field(min_length=10, max_length=200)
     quantidade_estoque: int = Field(ge=0)
 
 
