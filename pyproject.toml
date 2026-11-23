@@ -12,6 +12,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "fastapi>=0.165.0",
     "psycopg[binary]>=3.3.9",
+    "redis>=8.2.0",
     "sqlalchemy>=2.1.9",
     "uvicorn>=0.54.0",
 ]
