@@ -23,3 +23,4 @@ def listar_por_id(
     service: ProdutoService = Depends(get_service),
 ) -> Produto:
     return service.get_by_id(id)
+ 
