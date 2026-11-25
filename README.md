@@ -1,5 +1,5 @@
 # ProductMind 
-<h3>E um sistema desenvolvido em uma API REST Python/FastAPI com endpoints para listar produtos e conversar com um agente.<h3>
+<h3>E um sistema desenvolvido na forma de uma API REST em Python/FastAPI com endpoints para listar produtos e conversar com um agente.<h3>
 
 - PostgreSQL (Supabase): Guarda o cadastro oficial dos produtos e preços de forma relacional e segura.
 
