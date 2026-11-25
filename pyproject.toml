@@ -13,6 +13,7 @@ dependencies = [
     "fastapi>=0.165.0",
     "openai>=3.59.0",
     "psycopg[binary]>=3.3.9",
+    "pymongo>=4.20.1",
     "redis>=8.2.0",
     "sqlalchemy>=2.1.9",
     "uvicorn>=0.54.0",
