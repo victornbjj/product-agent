@@ -4,5 +4,6 @@ from pymongo import MongoClient
 
 load_dotenv()
 
-uri = os.getenv("MONGODB_URI", "")
+uri = os.environ["MONGODB_URI"]
 cliente = MongoClient(uri)
+db = cliente["produts_agents"]
