@@ -9,22 +9,23 @@ class MongoRepository():
 
     def inserir(self, interacao: InteracaoChat):
 
-        interacao_json = interacao.model_dump(exclude={"id"})
+        interacao_texto = interacao.model_dump(exclude={"id"})
     
-        self.colecao.insert_one(interacao_json)
+        return self.colecao.insert_one(interacao_texto).inserted_id
 
-    def listar_por_id(self, user_id:str ) -> list[InteracaoChat]:
+    
+    def listar_por_usuario(self, user_id:str ) -> list[InteracaoChat]:
 
         cursor = self.colecao.find({"user_id": user_id})
 
 
-        interecoes = []
+        interacoes = []
 
         for documento in cursor:
             documento["id"] = str(documento.pop("_id"))
-            interecoes.append(InteracaoChat(**documento))
+            interacoes.append(InteracaoChat(**documento))
 
-        return interecoes
+        return interacoes
 
             
     

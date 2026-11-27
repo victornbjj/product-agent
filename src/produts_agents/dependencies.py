@@ -1,13 +1,21 @@
-from fastapi import Depends, HTTPException
-from http import HTTPStatus 
-from sqlalchemy.orm import  Session
+
+
+from ..produts_agents.repositories.interacao_repository import MongoRepository
 from ..produts_agents.database import SessionLocal
 from ..produts_agents.services.produto_service import ProdutoService
 from ..produts_agents.repositories.produto_repository import ProdutoRepository
 from ..produts_agents.repositories.rate_limit_repository import RateLimitRepository
 from ..produts_agents.repositories.produto_cache_repository import ProdutoRedisRepository
 from ..produts_agents.redis_cliente import client
+from ..produts_agents.mongo_cliente import db
 from ..produts_agents.auth import get_current_user
+
+
+from fastapi import Depends, HTTPException
+
+from pymongo.collection import Collection
+from sqlalchemy.orm import  Session
+from http import HTTPStatus 
 from redis import Redis
 
 
@@ -24,6 +32,9 @@ def get_session():
 def get_client():
     return client
 
+def get_collection() -> Collection:
+    return db["interacoes"] 
+
 
 def get_cache_repository(client: Redis = Depends(get_client)) -> ProdutoRedisRepository:
     return ProdutoRedisRepository(client)
@@ -35,6 +46,10 @@ def get_repository(session: Session = Depends(get_session)) -> ProdutoRepository
 
 def get_service(cache: ProdutoRedisRepository = Depends(get_cache_repository) ,repo: ProdutoRepository = Depends(get_repository)) -> ProdutoService:
     return ProdutoService(repo,cache)
+
+
+def get_interacao_repository(collection: Collection = Depends(get_collection)) -> MongoRepository:
+    return MongoRepository(colecao=collection)
 
 
 def get_rate_limit_repository(client : Redis = Depends(get_client)) -> RateLimitRepository:
