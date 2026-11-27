@@ -9,6 +9,10 @@ from ..produts_agents.repositories.produto_cache_repository import ProdutoRedisR
 from ..produts_agents.redis_cliente import client
 from ..produts_agents.mongo_cliente import db
 from ..produts_agents.auth import get_current_user
+from ..produts_agents.repositories.interacao_repository import MongoRepository
+from ..produts_agents.services.chat_service import ChatService
+
+
 
 
 from fastapi import Depends, HTTPException
@@ -48,8 +52,14 @@ def get_service(cache: ProdutoRedisRepository = Depends(get_cache_repository) ,r
     return ProdutoService(repo,cache)
 
 
+
 def get_interacao_repository(collection: Collection = Depends(get_collection)) -> MongoRepository:
     return MongoRepository(colecao=collection)
+
+
+def get_chat_service(repo: MongoRepository= Depends(get_interacao_repository)):
+    return ChatService(repo=repo)
+
 
 
 def get_rate_limit_repository(client : Redis = Depends(get_client)) -> RateLimitRepository:
