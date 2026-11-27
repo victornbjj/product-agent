@@ -11,6 +11,8 @@ from ..produts_agents.mongo_cliente import db
 from ..produts_agents.auth import get_current_user
 from ..produts_agents.repositories.interacao_repository import MongoRepository
 from ..produts_agents.services.chat_service import ChatService
+from ..produts_agents.tools.dispatcher import ToolDispatcher
+from ..produts_agents.llm_cliente import client as llm_client, model as llm_model
 
 
 
@@ -57,8 +59,17 @@ def get_interacao_repository(collection: Collection = Depends(get_collection)) -
     return MongoRepository(colecao=collection)
 
 
-def get_chat_service(repo: MongoRepository= Depends(get_interacao_repository)):
-    return ChatService(repo=repo)
+def get_chat_service(
+    repo: MongoRepository = Depends(get_interacao_repository),
+    produto_service: ProdutoService = Depends(get_service),
+) -> ChatService:
+    tool_dispatcher = ToolDispatcher(produto_service)
+    return ChatService(
+        repo=repo,
+        tool_dispatcher=tool_dispatcher,
+        llm_client=llm_client,
+        model=llm_model,
+    )
 
 
 

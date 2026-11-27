@@ -6,6 +6,7 @@ class MongoRepository():
 
     def __init__(self, colecao: Collection):
         self.colecao = colecao
+        self.colecao.create_index("user_id")
 
     def inserir(self, interacao: InteracaoChat):
 
